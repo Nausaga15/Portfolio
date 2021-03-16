@@ -77,8 +77,8 @@
           <div class="col-md-5">
             <p>
               Ha'u hanesan estudante universitariu ida, departamentu enjenaria informatika, ha'u gosta estuda linguagem programasaun tamba halo hau sai ema nebe kriativu no programasaun la halo limitasaun ba hau nia kriatividade. Hau sempre
-              aprende coding loron ida oras haat (4) ou liu, Ha'u iha konesimentu kona-ba HTML, CSS, PHP, Database MySQL. Agora ha'u estuda tan linguagem programasaun PYTHON, Laos to'o iha ne'e de'it maibe ha'u aprende nafatin tuir
-              evolusaun teknolojia.
+              aprende coding loron ida oras rua (2) ou liu, Ha'u iha konesimentu kona-ba HTML, CSS, PHP, Database MySQL. Agora ha'u estuda tan linguagem programasaun PYTHON, Laos to'o iha ne'e de'it maibe ha'u aprende nafatin tuir evolusaun
+              teknolojia.
             </p>
           </div>
           <div class="col-md-5">
@@ -180,20 +180,28 @@
         </div>
         <div class="row justify-content-center mb-3">
           <div class="col-md-6">
-            <form>
+            <div class="alert alert-success alert-dismissible fade show d-none my-alert" role="alert">
+              <strong>Obrigado wain !!!</strong> Ita nia mensajen haruka ona ho susesu.
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <form name="contact-faustino">
               <div class="mb-3">
                 <label for="name" class="form-label">Naran Kompletu</label>
-                <input type="text" class="form-control" id="name" aria-describedby="name" />
+                <input type="text" class="form-control" id="name" aria-describedby="name" name="nama" />
               </div>
               <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" aria-describedby="email" />
+                <input type="email" class="form-control" id="email" aria-describedby="email" name="email" />
               </div>
               <div class="mb-3">
                 <label for="mensajen" class="form-label">Mensajen</label>
-                <textarea class="form-control" id="mensajen" rows="3"></textarea>
+                <textarea class="form-control" id="mensajen" rows="3" name="pesan"></textarea>
               </div>
-              <button type="submit" class="btn btn-primary">Submete</button>
+              <button type="submit" class="btn btn-primary btn-kirim">Submete</button>
+              <button class="btn btn-primary btn-loading d-none" type="button" disabled>
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Loading...
+              </button>
             </form>
           </div>
         </div>
@@ -217,5 +225,34 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
     <!---Script Offline-->
     <script src="bootstrap/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+
+    <script>
+      const scriptURL = "https://script.google.com/macros/s/AKfycbx-K3xSE1ZrJyiCRSkKtw2WIWGe5il06Wzygs-lZZgzUDqtegCBz2kgWQehGm5LYWZW5w/exec";
+      const form = document.forms["contact-faustino"];
+      const btnKirim = document.querySelector(".btn-kirim");
+      const btnLoading = document.querySelector(".btn-loading");
+      const myAlert = document.querySelector(".my-alert");
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        //submete
+        //mosu tombol loading hide kirim
+        btnLoading.classList.toggle("d-none");
+        btnKirim.classList.toggle("d-none");
+        fetch(scriptURL, { method: "POST", body: new FormData(form) })
+          .then((response) => {
+            //hamosu tombol kirim , hide tombol loading
+            btnLoading.classList.toggle("d-none");
+            btnKirim.classList.toggle("d-none");
+            //hamosu alert
+            myAlert.classList.toggle("d-none");
+            //reset formulario
+            form.reset();
+
+            console.log("Success!", response);
+          })
+          .catch((error) => console.error("Error!", error.message));
+      });
+    </script>
   </body>
 </html>
